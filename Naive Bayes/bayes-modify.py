@@ -77,8 +77,8 @@ Parameters:
 	trainMatrix - 训练文档矩阵，即setOfWords2Vec返回的returnVec构成的矩阵
 	trainCategory - 训练类别标签向量，即loadDataSet返回的classVec
 Returns:
-	p0Vect - 侮辱类的条件概率数组
-	p1Vect - 非侮辱类的条件概率数组
+	p0Vect - 非侮辱类的条件概率数组
+	p1Vect - 侮辱类的条件概率数组
 	pAbusive - 文档属于侮辱类的概率
 Author:
 	Jack Cui
@@ -109,8 +109,8 @@ def trainNB0(trainMatrix,trainCategory):
 
 Parameters:
 	vec2Classify - 待分类的词条数组
-	p0Vec - 侮辱类的条件概率数组
-	p1Vec -非侮辱类的条件概率数组
+	p0Vec - 非侮辱类的条件概率数组
+	p1Vec -侮辱类的条件概率数组
 	pClass1 - 文档属于侮辱类的概率
 Returns:
 	0 - 属于非侮辱类
@@ -145,7 +145,8 @@ Modify:
     2017-08-14
 """
 def textParse(bigString):                                                   #将字符串转换为字符列表
-    listOfTokens = re.split(r'\W*', bigString)                              #将特殊符号作为切分标志进行字符串切分，即非字母、非数字
+    # * 会匹配0个或多个规则，split会将字符串分割成单个字符【python3.5+】; 这里使用\W 或者\W+ 都可以将字符数字串分割开，产生的空字符将会在后面的列表推导式中过滤掉
+    listOfTokens = re.split(r'\W+', bigString)                              #将特殊符号作为切分标志进行字符串切分，即非字母、非数字
     return [tok.lower() for tok in listOfTokens if len(tok) > 2]            #除了单个字母，例如大写的I，其它单词变成小写
 
 """

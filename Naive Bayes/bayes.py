@@ -78,8 +78,8 @@ Parameters:
 	trainMatrix - 训练文档矩阵，即setOfWords2Vec返回的returnVec构成的矩阵
 	trainCategory - 训练类别标签向量，即loadDataSet返回的classVec
 Returns:
-	p0Vect - 侮辱类的条件概率数组
-	p1Vect - 非侮辱类的条件概率数组
+	p0Vect - 非的条件概率数组
+	p1Vect - 侮辱类的条件概率数组
 	pAbusive - 文档属于侮辱类的概率
 Author:
 	Jack Cui
@@ -97,7 +97,7 @@ def trainNB0(trainMatrix,trainCategory):
 	for i in range(numTrainDocs):
 		if trainCategory[i] == 1:							#统计属于侮辱类的条件概率所需的数据，即P(w0|1),P(w1|1),P(w2|1)···
 			p1Num += trainMatrix[i]
-			p1Denom += sum(trainMatrix[i])
+			p1Denom += sum(trainMatrix[i])                  ## 该词条的总的词数目   这压样求得每个词条出现的概率 P(w1),P(w2), P(w3)...
 		else:												#统计属于非侮辱类的条件概率所需的数据，即P(w0|0),P(w1|0),P(w2|0)···
 			p0Num += trainMatrix[i]
 			p0Denom += sum(trainMatrix[i])
@@ -110,8 +110,8 @@ def trainNB0(trainMatrix,trainCategory):
 
 Parameters:
 	vec2Classify - 待分类的词条数组
-	p0Vec - 侮辱类的条件概率数组
-	p1Vec -非侮辱类的条件概率数组
+	p0Vec - 非侮辱类的条件概率数组
+	p1Vec -侮辱类的条件概率数组
 	pClass1 - 文档属于侮辱类的概率
 Returns:
 	0 - 属于非侮辱类
@@ -124,7 +124,7 @@ Modify:
 	2017-08-12
 """
 def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
-	p1 = reduce(lambda x,y:x*y, vec2Classify * p1Vec) * pClass1    			#对应元素相乘
+	p1 = reduce(lambda x,y:x*y, vec2Classify * p1Vec) * pClass1    			#对应元素相乘  这里需要好好理解一下 
 	p0 = reduce(lambda x,y:x*y, vec2Classify * p0Vec) * (1.0 - pClass1)
 	print('p0:',p0)
 	print('p1:',p1)
